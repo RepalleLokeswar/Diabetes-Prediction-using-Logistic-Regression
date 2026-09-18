@@ -62,14 +62,14 @@ def load_model():
 try:
     model = load_model()
 except Exception as e:
-    st.error("Error: Could not load `logistic_regression_model.pkl`. Please ensure it is in the same directory.")
+    st.error("Error: Could not load `logistic_regression_model.pkl`. Please ensure it is in the same directory as this script.")
     st.stop()
 
 # -----------------------------------------------------------------------------
 # SIDEBAR
 # -----------------------------------------------------------------------------
 with st.sidebar:
-    st.image("https://cdn-icons-png.flaticon.com/512/3063/3063822.png", width=100)
+    st.image("https://flaticon.com", width=100)
     st.title("About the App")
     st.info(
         "This application uses a **Logistic Regression** machine learning model "
@@ -113,8 +113,14 @@ st.markdown("---")
 # PREDICTION & RESULTS SECTION
 # -----------------------------------------------------------------------------
 if st.button("Analyze Risk"):
-    # Prepare input feature array
-    input_features = np.array([[pregnancies, glucose, blood_pressure, skin_thickness, insulin, bmi, dpf, age]])
+    # Create DataFrame with exact column names from training data
+    input_features = pd.DataFrame([[
+        pregnancies, glucose, blood_pressure, skin_thickness, 
+        insulin, bmi, dpf, age
+    ]], columns=[
+        'Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 
+        'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age'
+    ])
     
     # Make predictions
     prediction = model.predict(input_features)[0]
